@@ -26,6 +26,11 @@
   select {
     font-size: 16px; /* Prevents iOS zoom on focus */
   }
+
+  /* Safari-specific fix for select height */
+  select {
+    min-height: 44px;
+  }
 }
 
 @layer components {
@@ -41,7 +46,8 @@
 
   /* Input field */
   .input-field {
-    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900;
+    min-height: 52px; /* Explicit height for Safari consistency */
   }
 
   /* Card container */
