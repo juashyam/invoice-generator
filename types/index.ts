@@ -48,4 +48,5 @@ export interface MerchantConfig {
   phone: string;
   email?: string;
   gstNumber?: string;
+  googleSheetId?: string;
 }

@@ -13,6 +13,7 @@ Create a spreadsheet with these columns:
 | Paneer       | 500   | kg     | 1                |
 | Milk         | 50    | liter  | 0.5              |
 | Butter       | 450   | kg     | 0.5              |
+| Office Chair | 4500  | piece  | 1                |
 
 **Columns:**
 - **Product Name** (required)
@@ -36,16 +37,15 @@ https://docs.google.com/spreadsheets/d/[SHEET_ID]/edit
 
 ### 4. Configure App
 
-**Local development:**
-```bash
-cp .env.local.example .env.local
-# Edit .env.local:
-NEXT_PUBLIC_GOOGLE_SHEET_ID=your_sheet_id_here
-```
+**In the App Settings:**
 
-**Production (Netlify/Vercel):**
-- Add environment variable: `NEXT_PUBLIC_GOOGLE_SHEET_ID`
-- Redeploy
+1. Open the invoice app
+2. Tap the **gear icon** (⚙️) on the customer selection screen
+3. Scroll to **Google Sheet ID** field
+4. Paste your Sheet ID
+5. Tap **Save**
+
+Your products will load automatically from the sheet!
 
 ## How It Works
 

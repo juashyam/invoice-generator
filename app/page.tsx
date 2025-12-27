@@ -641,9 +641,22 @@ export default function NewInvoicePage() {
 
   // SCREEN: SETTINGS
   if (screen === 'settings') {
-    const handleSaveConfig = () => {
+    const handleSaveConfig = async () => {
+      const sheetIdChanged = editingConfig.googleSheetId !== merchantConfig?.googleSheetId;
+      
       saveMerchantConfig(editingConfig);
       setMerchantConfig(editingConfig);
+      
+      // Reload products if sheet ID changed
+      if (sheetIdChanged) {
+        try {
+          const allProducts = await getAllProducts();
+          setProducts(allProducts);
+        } catch (error) {
+          console.error('Failed to reload products:', error);
+        }
+      }
+      
       setScreen('customer-selection');
     };
 
@@ -737,6 +750,22 @@ export default function NewInvoicePage() {
                 placeholder="22AAAAA0000A1Z5"
                 className="input-field"
               />
+            </div>
+
+            <div className="pt-4 border-t border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Google Sheet ID <span className="text-gray-400 text-xs">(optional)</span>
+              </label>
+              <input
+                type="text"
+                value={editingConfig.googleSheetId || ''}
+                onChange={e => setEditingConfig({ ...editingConfig, googleSheetId: e.target.value })}
+                placeholder="1abc...xyz"
+                className="input-field"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Import product catalog from Google Sheets. <a href="/example_google_sheet.csv" target="_blank" className="text-blue-600 underline">Setup guide</a>
+              </p>
             </div>
           </div>
         </main>

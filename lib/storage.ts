@@ -75,7 +75,10 @@ export function getProducts(): Product[] {
 export async function getAllProducts(): Promise<Product[]> {
   const { fetchProductsFromSheet } = await import('./sheets');
   const manualProducts = getProducts();
-  const sheetProducts = await fetchProductsFromSheet();
+  
+  // Get sheet ID from merchant config
+  const merchantConfig = getMerchantConfig();
+  const sheetProducts = await fetchProductsFromSheet(merchantConfig.googleSheetId);
   
   // Merge: sheet products first, then manual products not in sheet
   const allProducts = [...sheetProducts];
@@ -152,6 +155,7 @@ const DEFAULT_MERCHANT_CONFIG: MerchantConfig = {
   phone: '',
   email: '',
   gstNumber: '',
+  googleSheetId: '',
 };
 
 export function getMerchantConfig(): MerchantConfig {

@@ -44,19 +44,22 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export async function fetchProductsFromSheet(): Promise<Product[]> {
-  // Return cached products if still valid
-  if (cachedProducts && Date.now() - lastFetchTime < CACHE_DURATION) {
+export async function fetchProductsFromSheet(sheetId?: string): Promise<Product[]> {
+  // Use provided sheetId or fallback to env variable (for backwards compatibility during transition)
+  const SHEET_ID_TO_USE = sheetId || SHEET_ID;
+  
+  // Return cached products if still valid and same sheet ID
+  if (cachedProducts && Date.now() - lastFetchTime < CACHE_DURATION && SHEET_ID_TO_USE) {
     return cachedProducts;
   }
 
   // Return empty array if sheet not configured
-  if (!SHEET_ID) {
+  if (!SHEET_ID_TO_USE) {
     return [];
   }
 
   try {
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID_TO_USE}/export?format=csv`;
     const response = await fetch(csvUrl);
     
     if (!response.ok) {
